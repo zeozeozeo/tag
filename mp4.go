@@ -121,7 +121,7 @@ func (m *metadataMP4) readAtoms(r io.ReadSeeker) error {
 			}
 			m.duration = time.Second * (time.Duration(sampleNum) / time.Duration(sampleRate))
 
-			_, err = r.Seek(int64(size-8-12), io.SeekCurrent)
+			_, err = r.Seek(int64(size-8-12-8), io.SeekCurrent)
 			if err != nil {
 				return err
 			}
