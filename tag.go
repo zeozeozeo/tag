@@ -6,12 +6,13 @@
 // parsing and artwork extraction.
 //
 // Detect and parse tag metadata from an io.ReadSeeker (i.e. an *os.File):
-// 	m, err := tag.ReadFrom(f)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	log.Print(m.Format()) // The detected format.
-// 	log.Print(m.Title())  // The title of the track (see Metadata interface for more details).
+//
+//	m, err := tag.ReadFrom(f)
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	log.Print(m.Format()) // The detected format.
+//	log.Print(m.Title())  // The title of the track (see Metadata interface for more details).
 package tag
 
 import (
@@ -53,6 +54,13 @@ func ReadFrom(r io.ReadSeeker) (Metadata, error) {
 
 	case string(b[0:4]) == "DSD ":
 		return ReadDSFTags(r)
+
+	case string(b[0:4]) == "RIFF":
+		err := setWavOffset(r)
+		if err != nil {
+			return nil, err
+		}
+		return ReadID3v2Tags(r)
 	}
 
 	m, err := ReadID3v1Tags(r)
