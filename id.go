@@ -56,6 +56,7 @@ func Identify(r io.ReadSeeker) (format Format, fileType FileType, err error) {
 			return
 		}
 		return format, MP3, nil
+
 	case string(b[0:4]) == "RIFF" && string(b[8:12]) == "WAVE":
 		format = UnknownFormat
 		err = setWavOffset(r)
@@ -89,7 +90,6 @@ func Identify(r io.ReadSeeker) (format Format, fileType FileType, err error) {
 			}
 		}
 		return format, WAV, nil
-
 	}
 
 	n, err := r.Seek(-128, io.SeekEnd)
