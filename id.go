@@ -63,33 +63,9 @@ func Identify(r io.ReadSeeker) (format Format, fileType FileType, err error) {
 		if err != nil {
 			return format, WAV, err
 		}
-		b, err = readBytes(r, 4)
-		if err != nil {
-			return
-		}
-		_, err = r.Seek(-4, io.SeekCurrent)
-		if err != nil {
-			err = fmt.Errorf("could not seek back to original position: %v", err)
-			return
-		}
-		switch {
-		case string(b[0:3]) == "ID3":
-			b := b[3:]
-			switch uint(b[0]) {
-			case 2:
-				format = ID3v2_2
-			case 3:
-				format = ID3v2_3
-			case 4:
-				format = ID3v2_4
-			case 0, 1:
-				fallthrough
-			default:
-				err = fmt.Errorf("ID3 version: %v, expected: 2, 3 or 4", uint(b[0]))
-				return
-			}
-		}
-		return format, WAV, nil
+		// call Identify() again, replacing whatever fileType it finds with WAV
+		format, _, err = Identify(r)
+		return format, WAV, err
 	}
 
 	n, err := r.Seek(-128, io.SeekEnd)

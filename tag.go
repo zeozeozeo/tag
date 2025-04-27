@@ -60,7 +60,8 @@ func ReadFrom(r io.ReadSeeker) (Metadata, error) {
 		if err != nil {
 			return nil, err
 		}
-		return ReadID3v2Tags(r)
+		// call ReadFrom() again at the new offset
+		return ReadFrom(r)
 	}
 
 	m, err := ReadID3v1Tags(r)
