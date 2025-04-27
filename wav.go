@@ -6,16 +6,16 @@ import (
 )
 
 func setWavOffset(r io.ReadSeeker) error {
-	// verify RIFF format
+	// verify RIFF chunk
 	str, err := readString(r, 4)
 	if err != nil {
 		return err
 	}
 	if str != "RIFF" {
-		return fmt.Errorf("format %v does not match expected 'RIFF'", str)
+		return fmt.Errorf("chunk header %v does not match expected 'RIFF'", str)
 	}
 
-	// verify WAVE format
+	// verify WAVE filetype
 	_, err = r.Seek(4, io.SeekCurrent)
 	if err != nil {
 		return err
@@ -50,18 +50,12 @@ func setWavOffset(r io.ReadSeeker) error {
 		return err
 	}
 
-	// skip past 8-byte Serato-specific identifier & size
-	// keep in mind, no documentation for this
-	str, err = readString(r, 3)
+	// skip unneeded 8-byte RIFF chunk header (4-byte ASCII identifier
+	// and 4-byte little-endian uint32 chunk size), more info:
+	// https://en.wikipedia.org/wiki/Resource_Interchange_File_Format#Explanation
+	_, err = r.Seek(8, io.SeekCurrent)
 	if err != nil {
 		return err
-	}
-	r.Seek(-3, io.SeekCurrent)
-	if str == "id3" {
-		_, err = r.Seek(8, io.SeekCurrent)
-		if err != nil {
-			return err
-		}
 	}
 
 	return nil
