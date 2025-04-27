@@ -103,6 +103,7 @@ const (
 	FLAC            FileType = "FLAC" // FLAC file
 	OGG             FileType = "OGG"  // OGG file
 	DSF             FileType = "DSF"  // DSF file DSD Sony format see https://dsd-guide.com/sites/default/files/white-papers/DSFFileFormatSpec_E.pdf
+	WAV             FileType = "WAV"  // WAVE file
 )
 
 // Metadata is an interface which is used to describe metadata retrieved by this package.

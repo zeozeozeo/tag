@@ -64,15 +64,5 @@ func setWavOffset(r io.ReadSeeker) error {
 		}
 	}
 
-	// verify that ID3 was reached
-	str, err = readString(r, 3)
-	if err != nil {
-		return err
-	}
-	r.Seek(-3, io.SeekCurrent)
-	if str == "ID3" {
-		return nil
-	} else {
-		return ErrNoTagsFound
-	}
+	return nil
 }
