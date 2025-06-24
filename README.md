@@ -1,5 +1,6 @@
 # MP3/MP4/OGG/FLAC metadata parsing library
-[![GoDoc](https://pkg.go.dev/badge/github.com/dhowden/tag)](https://pkg.go.dev/github.com/dhowden/tag)
+
+[![GoDoc](https://pkg.go.dev/badge/github.com/zeozeozeo/tag)](https://pkg.go.dev/github.com/zeozeozeo/tag)
 
 This package provides MP3 (ID3v1,2.{2,3,4}) and MP4 (ACC, M4A, ALAC), OGG and FLAC metadata detection, parsing and artwork extraction.
 
@@ -46,14 +47,14 @@ type Metadata interface {
 This package also provides a metadata-invariant checksum for audio files: only the audio data is used to
 construct the checksum.
 
-[https://pkg.go.dev/github.com/dhowden/tag#Sum](https://pkg.go.dev/github.com/dhowden/tag#Sum)
+[https://pkg.go.dev/github.com/zeozeozeo/tag#Sum](https://pkg.go.dev/github.com/zeozeozeo/tag#Sum)
 
 ## Tools
 
 There are simple command-line tools which demonstrate basic tag extraction and summing:
 
 ```console
-$ go install github.com/dhowden/tag/cmd/tag@latest
+$ go install github.com/zeozeozeo/tag/cmd/tag@latest
 $ cd $GOPATH/bin
 $ ./tag 11\ High\ Hopes.m4a
 Metadata Format: MP4
