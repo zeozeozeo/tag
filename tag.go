@@ -66,6 +66,14 @@ func ReadFrom(r io.ReadSeeker) (Metadata, error) {
 
 	case string(b[0:4]) == "DSD ":
 		return ReadDSFMeta(r)
+
+	case string(b[0:4]) == "RIFF":
+		err := setWavOffset(r)
+		if err != nil {
+			return nil, err
+		}
+		// call ReadFrom() again at the new offset
+		return ReadFrom(r)
 	}
 
 	return nil, errors.ErrUnsupported
@@ -121,6 +129,7 @@ const (
 	FLAC            FileType = "FLAC" // FLAC file
 	OGG             FileType = "OGG"  // OGG file
 	DSF             FileType = "DSF"  // DSF file DSD Sony format see https://dsd-guide.com/sites/default/files/white-papers/DSFFileFormatSpec_E.pdf
+	WAV             FileType = "WAV"  // WAVE file
 )
 
 // Metadata is an interface which is used to describe metadata retrieved by this package.
