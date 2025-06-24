@@ -72,7 +72,7 @@ func (o *oggDemuxer) Read(r io.Reader) ([][]byte, int, error) {
 		return nil, 0, err
 	}
 
-	if bytes.Compare(oh.Magic[:], []byte("OggS")) != 0 {
+	if !bytes.Equal(oh.Magic[:], []byte("OggS")) {
 		// TODO: seek for syncword?
 		return nil, 0, errors.New("expected 'OggS'")
 	}

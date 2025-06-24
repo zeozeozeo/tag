@@ -116,5 +116,5 @@ func (m *metadataFLAC) FileType() FileType {
 }
 
 func (m *metadataFLAC) Duration() time.Duration {
-	return time.Second
+	return m.duration
 }
