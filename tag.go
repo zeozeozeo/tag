@@ -68,12 +68,7 @@ func ReadFrom(r io.ReadSeeker) (Metadata, error) {
 		return ReadDSFMeta(r)
 
 	case string(b[0:4]) == "RIFF":
-		err := setWavOffset(r)
-		if err != nil {
-			return nil, err
-		}
-		// call ReadFrom() again at the new offset
-		return ReadFrom(r)
+		return ReadWAVMeta(r)
 	}
 
 	return nil, errors.ErrUnsupported

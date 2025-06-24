@@ -143,3 +143,11 @@ func cutBits(in []byte, offset, n uint) (uint64, error) {
 	}
 	return res, nil
 }
+
+func readUint16LittleEndian(r io.Reader) (uint16, error) {
+	b, err := readBytes(r, 2)
+	if err != nil {
+		return 0, err
+	}
+	return uint16(b[0]) | uint16(b[1])<<8, nil
+}
